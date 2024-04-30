@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: calculator-microservice-replicaset
+  labels:
+    app: calculator-microservice
+    tier: calculator-microservice-frontend
+spec:
+  # modify replicas according to your case
+  replicas: 3
+  selector:
+    matchLabels:
+      tier: calculator-microservice-frontend
+  template:
+    metadata:
+      labels:
+        tier: calculator-microservice-frontend
+    spec:
+      containers:
+      - name: calculator-microservice-node
+        image: markdevereux/calculator-microservice:1.1.1
+        ports:
+        - containerPort: 8080

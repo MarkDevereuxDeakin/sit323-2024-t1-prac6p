@@ -1,0 +1,25 @@
+version: '4.29'
+services:
+  calculator_microservice:
+    container_name: calculator-microservice-container
+    image: calculator-microservice-image
+    build: .
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/calculator-microservice-volume
+    networks:
+      - calculator-micronetwork    
+    environment:
+      - PORT=8080
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8080/check-health || exit 1"]
+      interval: 30s
+      timeout: 15s
+      retries: 3
+      start_period: 30s
+    restart: on-failure
+
+networks:
+  calculator_microservice_network:
+    driver: bridge
